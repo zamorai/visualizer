@@ -6,8 +6,8 @@ export default function App() {
 
       <header className="header">
         <div className="logo">
-          Algorithm Visualizer
-        </div>
+          Visualizer
+        </div> 
         <div className="visualize">
           <button className="btn-visualize">Visualize!</button>
         </div>
