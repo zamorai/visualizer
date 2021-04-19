@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <div className="container">
 
-export default App;
+      <header className="header">
+        <div className="logo">
+          Algorithm Visualizer
+        </div>
+        <div className="visualize">
+          <button className="btn-visualize">Visualize!</button>
+        </div>
+        <div className="options">
+          <select name='algorithms'>
+            <option value="djikstra">Djikstra's Algorithm</option>
+            <option value="prim">Prim's Algorithm</option>
+            <option value="bellman">Bellman-Ford Algorithm</option>
+          </select>
+        </div>
+      </header>
+
+      <section className="body">
+        Visualize Algorithm Here!
+      </section>
+
+    </div>
+  )
+}
