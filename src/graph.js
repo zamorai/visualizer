@@ -12,10 +12,18 @@ export default function graph(props) {
     )
   })
 
+  const renderWeights = props.weights.map((item, index) => {
+    return (
+      <div className={`connection connection-${index+1}`}><span className={`connection-text connection_text-${index + 1}`}>{item}</span></div>
+    )
+  })
+
+
   return (
     <div className="graph-container">
       {renderNodes} 
-    </div>
-  )
+      {renderWeights} 
+    </div>  
+  ) 
 }
  

@@ -5,10 +5,18 @@ import Header from './header';
 const nodes = [1,2,3,4,5,6,7,8];
 
 export default function App() {
-  const[selected, setSelected] = useState(1)
-  console.log(selected); 
+  const[selected, setSelected] = useState(1);
+  const[weights, setWeights] = useState([12,56,3,34,54,6,890,12,32,4,5,65])
+
+
   const randomSelect = () => {
-    setSelected(Math.floor(Math.random()*10%8+1)) 
+    //setSelected(Math.floor(Math.random()*10%8+1)) 
+    var tempWeights = []
+    for(var i = 0; i < weights.length; i++) {
+      tempWeights.push(Math.floor(Math.random()*50))
+    }
+
+    setWeights(tempWeights)
   }
 
   return (
@@ -17,7 +25,7 @@ export default function App() {
       <Header random={randomSelect} />
 
       <section className="body">
-        <Graph nodes={nodes} selected={selected} />
+        <Graph weights={weights} nodes={nodes} selected={selected} />
       </section>
 
     </div>
