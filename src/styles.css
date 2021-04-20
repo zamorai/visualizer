@@ -30,8 +30,8 @@ html {
 
 .body{
   width: 100%;
-  height: 94.2vh; 
-  background-color: burlywood;
+  height: 94vh;  
+  background-color: rgb(241, 241, 241); 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,6 +66,56 @@ color: white;
 }
 
 
-/*------------ BODY ----------- */
+/*------------ GRAPH ----------- */
+
+.graph-container {
+  position: relative;
+}
+
+.node {
+  content: "";
+  position: absolute;
+  height: 5rem;
+  width: 5rem;
+  border: 1px solid black; 
+  border-radius: 50%; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem; 
+}
+
+.node-1 {
+  transform: translate(30rem);
+}
+.node-2 {
+  transform: translateX(-30rem);
+}
+.node-3 {
+  transform: translateY(35rem);
+}
+.node-4 {
+  transform: translate(-10rem, 15rem); 
+}
+.node-5 {
+  transform: translate(10rem, 15rem); 
+}
+.node-6 {
+  transform: translate(-10rem, -15rem); 
+}
+.node-7 {
+  transform: translate(10rem, -15rem); 
+}
+.node-8 {
+  transform: translateY(-35rem); 
+}
+
+
+
+/*------------ ANIMATION ----------- */
+
+.selected { 
+  border: 1px solid red;
+}
 
 
