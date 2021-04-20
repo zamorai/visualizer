@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function header() {
+export default function header(props) {
   return (
     <header className="header">
       <div className="logo">
@@ -14,9 +14,9 @@ export default function header() {
         </select>
       </div>
       <div>
-        <button className="btn-visualize">New Graph</button>
+        <button onClick={props.random}  className="btn-visualize">New Graph</button>
       </div>
-      <div className="visualize">
+      <div className="visualize"> 
         <button className="btn-visualize">Visualize!</button>
       </div>
   
