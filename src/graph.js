@@ -18,7 +18,6 @@ export default function graph(props) {
     )
   })
 
-
   return (
     <div className="graph-container">
       {renderNodes} 
