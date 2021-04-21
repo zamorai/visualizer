@@ -10,7 +10,7 @@ export default function header(props) {
         <select onChange={ e => props.changeAlgorithm(e.target.value)} name='algorithms'>
           <option value="djikstra">Djikstra's Algorithm</option>
           <option value="prim">Prim's Algorithm</option>
-          <option value="bellman">Bellman-Ford Algorithm</option>
+          <option value="kruskal">Kruskal's Algorithm</option>
           <option value="bfs">BFS</option>
           <option value="dfs">DFS</option>
         </select>

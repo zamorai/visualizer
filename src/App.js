@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Graph from './graph';
 import Header from './header';
 
+const INF = 9999999
 const nodes = [1,2,3,4,5,6,7,8];
 const connections = [[3,5],[3,4],[8,6],[8,7],[4,6],[7,5],[6,7],[4,5],[7,1],[2,6],[2,4],[5,1]]
 
@@ -112,10 +113,56 @@ export default function App() {
   }
 
   const prim = async (graph) => {
-    // complete this algorithm
+    // starting node
+    var start = 1
+
+    var arr = [0,0,0,0,0,0,0,0,0,0,0,0]
+    var complete = [0,0,0,0,0,0,0,0,0,0,0,0]
+    var cluster = [start]
+    var allMin = []
+
+    var q = [[start, [start]]]
+    var visited = new Set()
+    visited.add(start)
+
+    while(q.length > 0) {
+      var len = q.length
+      var node, path;
+      for(var i = 0; i < len; i++) {
+        [node, path] = q.shift()
+        setSelected(node)
+        if(path.length == 8) {
+          console.log("Prim's Complete!")
+          console.log(complete)
+          for(var item of allMin) {
+            complete[weights.indexOf(item)] = 1
+          } 
+          setCompleted(complete)
+          break;
+        }
+        var min = [999,999];
+
+        for(var newNode of path) {
+          //console.log(newNode)
+          for(var nei of graph[newNode]) {
+            //console.log(nei)
+            if(!visited.has(nei[0])) {
+              if(nei[1] < min[1]) {
+                min = [nei[0],nei[1]]
+              }
+            }
+          }
+        }
+        allMin.push(min[1]) 
+        visited.add(min[0])
+        q.push([min[0], [...path, min[0]]])
+      }
+      await sleep(100) 
+    }
+    return;
   }
 
-  const bellman = async (graph) => {
+  const kruskal = async (graph) => {
     // complete this algorithm
   }
 
@@ -141,7 +188,7 @@ export default function App() {
           } 
           setCompleted(complete)
           console.log(path)
-          break;
+          return;
         }
 
         for(var nei of graph[node]) {
@@ -162,6 +209,7 @@ export default function App() {
 
   const visualize = (grph) => {
     console.log("running " + algorithm)
+    setCompleted([0,0,0,0,0,0,0,0,0,0,0,0])
     switch(algorithm) {
       case "bfs":
         traverseBFS(grph)
@@ -172,8 +220,8 @@ export default function App() {
       case "prim":
         prim(grph)
         break;
-      case "bellman":
-        bellman(grph)
+      case "kruskal":
+        kruskal(grph)
         break;
       case "dfs":
         traverseDFS(grph)
