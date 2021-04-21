@@ -9,10 +9,11 @@ const connections = [[3,5],[3,4],[8,6],[8,7],[4,6],[7,5],[6,7],[4,5],[7,1],[2,6]
 export default function App() {
   const[selected, setSelected] = useState(0);
   const[weightSelected, setWeightSelected] = useState([0,0,0,0,0,0,0,0,0,0,0,0])
+  const[completed, setCompleted] = useState([0,0,0,0,0,0,0,0,0,0,0,0])
   const[weights, setWeights] = useState([12,56,3,34,54,6,890,14,32,4,5,65])
   const[graph, setGraph] = useState({})
   const[algorithm, setAlgorithm] = useState("djikstra")
-  const[completed, setCompleted] = useState([0,0,0,0,0,0,0,0,0,0,0,0])
+
 
   useEffect(() => {
     //console.log(weights)
@@ -118,7 +119,6 @@ export default function App() {
 
     var arr = [0,0,0,0,0,0,0,0,0,0,0,0]
     var complete = [0,0,0,0,0,0,0,0,0,0,0,0]
-    var cluster = [start]
     var allMin = []
 
     var q = [[start, [start]]]
@@ -131,21 +131,20 @@ export default function App() {
       for(var i = 0; i < len; i++) {
         [node, path] = q.shift()
         setSelected(node)
+
         if(path.length == 8) {
           console.log("Prim's Complete!")
-          console.log(complete)
           for(var item of allMin) {
             complete[weights.indexOf(item)] = 1
           } 
           setCompleted(complete)
           break;
         }
+
         var min = [999,999];
 
         for(var newNode of path) {
-          //console.log(newNode)
           for(var nei of graph[newNode]) {
-            //console.log(nei)
             if(!visited.has(nei[0])) {
               if(nei[1] < min[1]) {
                 min = [nei[0],nei[1]]
