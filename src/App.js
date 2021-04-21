@@ -6,7 +6,7 @@ const nodes = [1,2,3,4,5,6,7,8];
 const connections = [[3,5],[3,4],[8,6],[8,7],[4,6],[7,5],[6,7],[4,5],[7,1],[2,6],[2,4],[5,1]]
 
 export default function App() {
-  const[selected, setSelected] = useState(1);
+  const[selected, setSelected] = useState(0);
   const[weightSelected, setWeightSelected] = useState([0,0,0,0,0,0,0,0,0,0,0,0])
   const[weights, setWeights] = useState([12,56,3,34,54,6,890,14,32,4,5,65])
   const[graph, setGraph] = useState({})
@@ -56,8 +56,8 @@ export default function App() {
   }
 
   const traverseBFS = async (graph) => {
-    let start = 7
-    let end = 2
+    let start = 6
+    let end = 3
     console.log(graph)
   
     var q = [start];
@@ -81,7 +81,7 @@ export default function App() {
           q.push(nei[0])
         }
       }
-    await sleep(2500);
+    await sleep(1000);
     }
     return; 
   }
