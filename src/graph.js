@@ -17,8 +17,12 @@ export default function graph(props) {
     if(props.weightSelected[index] == 1) {
       selected = true;
     }
+    var completed = false
+    if(props.completed[index] == 1) {
+      completed = true;
+    }
     return (
-      <div className={`connection connection-${index+1} ${selected ? "selected" : ""}`}><span className={`connection-text connection_text-${index + 1}`}>{item}</span></div>
+      <div className={`connection connection-${index+1} ${selected ? "selected" : ""} ${completed ? "completed" : ""}`}><span className={`connection-text connection_text-${index + 1}`}>{item}</span></div>
     )
   })
 

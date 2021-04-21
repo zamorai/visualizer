@@ -10,6 +10,8 @@ export default function App() {
   const[weightSelected, setWeightSelected] = useState([0,0,0,0,0,0,0,0,0,0,0,0])
   const[weights, setWeights] = useState([12,56,3,34,54,6,890,14,32,4,5,65])
   const[graph, setGraph] = useState({})
+  const[algorithm, setAlgorithm] = useState("djikstra")
+  const[completed, setCompleted] = useState([0,0,0,0,0,0,0,0,0,0,0,0])
 
   useEffect(() => {
     //console.log(weights)
@@ -17,8 +19,10 @@ export default function App() {
   }, [weights])
 
   useEffect(() => {
-    //console.log(graph)
-  }, [graph])
+    setWeightSelected([[0,0,0,0,0,0,0,0,0,0,0,0]])
+    setCompleted([0,0,0,0,0,0,0,0,0,0,0,0])
+  }, [algorithm])
+
 
   const buildGraph = () => {
     var newGraph = {}
@@ -50,50 +54,140 @@ export default function App() {
     //setSelected(Math.floor(Math.random()*10%8+1)) 
     var tempWeights = []
     for(var i = 0; i < weights.length; i++) {
-      tempWeights.push(Math.floor(Math.random()*50 + 1))
+      var randNum = Math.floor(Math.random()*50 + 1)
+      while(tempWeights.includes(randNum)) {
+        randNum = Math.floor(Math.random()*50 + 1)
+        console.log("WE AVERTED CHAOS!")
+      }
+      tempWeights.push(randNum)
     }
     setWeights(tempWeights)
+    setWeightSelected([0,0,0,0,0,0,0,0,0,0,0,0])
+    setCompleted([0,0,0,0,0,0,0,0,0,0,0,0])
   }
 
+  // ----------- ALGORITHMS ------------ //
+
   const traverseBFS = async (graph) => {
-    let start = 6
-    let end = 3
-    console.log(graph)
+    let start = 1
+    let end = 2
   
-    var q = [start];
+    var q = [[start, []]];
     var visited = new Set();
     visited.add(start) 
     var arr = [0,0,0,0,0,0,0,0,0,0,0,0]
+    var complete = [0,0,0,0,0,0,0,0,0,0,0,0]
     while(q.length > 0) {
-      var node = q.shift();
-      //console.log(node) 
-      setSelected(node) 
-      if(node == end) {
-        console.log("Success")
-        break;
-      }
-  
-      for(var nei of graph[node]) {
-        if(!visited.has(nei[0])) {
-          arr[weights.indexOf(nei[1])] = 1
-          setWeightSelected(arr)
-          visited.add(nei[0])
-          q.push(nei[0])
+      var len = q.length
+      var node, path;
+      for(var i = 0; i < len; i++) {
+        [node, path] = q.shift()
+        setSelected(node)
+        //console.log(path) 
+        if(node == end) {
+          for(var item of path) {
+            complete[weights.indexOf(item)] = 1
+          } 
+          setCompleted(complete)
+          console.log(path)
+          break;
         }
+
+        for(var nei of graph[node]) {
+          if(!visited.has(nei[0])) {
+            arr[weights.indexOf(nei[1])] = 1
+            setWeightSelected(arr)
+            visited.add(nei[0])
+            q.push([nei[0], [...path, nei[1]]])
+          }
+        }
+      await sleep(1000);
       }
-    await sleep(1000);
     }
     return; 
   }
 
+  const djikstra = async (graph) => {
+    // complete this algorithm
+  }
+
+  const prim = async (graph) => {
+    // complete this algorithm
+  }
+
+  const bellman = async (graph) => {
+    // complete this algorithm
+  }
+
+  const traverseDFS = async (graph) => {
+    let start = 1
+    let end = 2
+  
+    var stack = [[start, []]];
+    var visited = new Set();
+    visited.add(start) 
+    var arr = [0,0,0,0,0,0,0,0,0,0,0,0]
+    var complete = [0,0,0,0,0,0,0,0,0,0,0,0]
+    while(stack.length > 0) {
+      var len = stack.length
+      var node, path;
+      for(var i = 0; i < len; i++) {
+        [node, path] = stack.pop()
+        setSelected(node)
+        //console.log(path) 
+        if(node == end) {
+          for(var item of path) {
+            complete[weights.indexOf(item)] = 1
+          } 
+          setCompleted(complete)
+          console.log(path)
+          break;
+        }
+
+        for(var nei of graph[node]) {
+          if(!visited.has(nei[0])) {
+            arr[weights.indexOf(nei[1])] = 1
+            setWeightSelected(arr)
+            visited.add(nei[0])
+            stack.push([nei[0], [...path, nei[1]]])
+          }
+        }
+      await sleep(1000);
+      }
+    }
+    return; 
+  }
+
+  // ----------- ALGORITHMS ------------ //
+
+  const visualize = (grph) => {
+    console.log("running " + algorithm)
+    switch(algorithm) {
+      case "bfs":
+        traverseBFS(grph)
+        break;
+      case "djikstra":
+        djikstra(grph)
+        break;
+      case "prim":
+        prim(grph)
+        break;
+      case "bellman":
+        bellman(grph)
+        break;
+      case "dfs":
+        traverseDFS(grph)
+        break;
+    }
+  }
 
   return (
     <div className="container">
 
-      <Header graph={graph} traverse={traverseBFS} random={randomSelect} />
+      <Header changeAlgorithm={setAlgorithm} graph={graph} visualize={visualize} random={randomSelect} />
 
       <section className="body">
-        <Graph weightSelected={weightSelected} weights={weights} nodes={nodes} selected={selected} />
+        <Graph completed={completed} weightSelected={weightSelected} weights={weights} nodes={nodes} selected={selected} />
       </section>
 
     </div>

@@ -228,4 +228,8 @@ color: white;
   border: 2px solid red;
 }
 
+.completed {
+  border: 2px solid rgb(30, 126, 236);
+}
+
 
