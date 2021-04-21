@@ -8,7 +8,7 @@ const connections = [[3,5],[3,4],[8,6],[8,7],[4,6],[7,5],[6,7],[4,5],[7,1],[2,6]
 export default function App() {
   const[selected, setSelected] = useState(1);
   const[weightSelected, setWeightSelected] = useState([0,0,0,0,0,0,0,0,0,0,0,0])
-  const[weights, setWeights] = useState([12,56,3,34,54,6,890,12,32,4,5,65])
+  const[weights, setWeights] = useState([12,56,3,34,54,6,890,14,32,4,5,65])
   const[graph, setGraph] = useState({})
 
   useEffect(() => {
@@ -56,17 +56,17 @@ export default function App() {
   }
 
   const traverseBFS = async (graph) => {
-    let start = 1
+    let start = 7
     let end = 2
     console.log(graph)
   
     var q = [start];
     var visited = new Set();
     visited.add(start) 
-  
+    var arr = [0,0,0,0,0,0,0,0,0,0,0,0]
     while(q.length > 0) {
       var node = q.shift();
-      console.log(node) 
+      //console.log(node) 
       setSelected(node) 
       if(node == end) {
         console.log("Success")
@@ -75,11 +75,13 @@ export default function App() {
   
       for(var nei of graph[node]) {
         if(!visited.has(nei[0])) {
+          arr[weights.indexOf(nei[1])] = 1
+          setWeightSelected(arr)
           visited.add(nei[0])
           q.push(nei[0])
         }
       }
-    await sleep(1000);
+    await sleep(2500);
     }
     return; 
   }

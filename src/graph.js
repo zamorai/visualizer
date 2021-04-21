@@ -13,8 +13,12 @@ export default function graph(props) {
   })
 
   const renderWeights = props.weights.map((item, index) => {
+    var selected = false;
+    if(props.weightSelected[index] == 1) {
+      selected = true;
+    }
     return (
-      <div className={`connection connection-${index+1}`}><span className={`connection-text connection_text-${index + 1}`}>{item}</span></div>
+      <div className={`connection connection-${index+1} ${selected ? "selected" : ""}`}><span className={`connection-text connection_text-${index + 1}`}>{item}</span></div>
     )
   })
 
