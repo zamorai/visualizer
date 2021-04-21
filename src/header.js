@@ -11,15 +11,17 @@ export default function header(props) {
           <option value="djikstra">Djikstra's Algorithm</option>
           <option value="prim">Prim's Algorithm</option>
           <option value="bellman">Bellman-Ford Algorithm</option>
+          <option value="traverse">Traverse BFS</option>
         </select>
       </div>
       <div>
-        <button onClick={props.random}  className="btn-visualize">New Graph</button>
+        <button onClick={() => props.random()}  className="btn-visualize">New Graph</button>
       </div>
       <div className="visualize"> 
-        <button className="btn-visualize">Visualize!</button>
+        <button onClick={() => props.traverse(props.graph)} className="btn-visualize">Visualize!</button>
       </div>
   
     </header>
   )
 }
+ 
