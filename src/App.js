@@ -145,6 +145,7 @@ export default function App() {
           } 
           setCompleted(complete)
           setWeightSelected([0,0,0,0,0,0,0,0,0,0,0,0])
+          setSelected(0)
           break;
         }
 
