@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-export default function graph(props) {
+export default function Graph(props) {
  
   const renderNodes = props.nodes.map(item => {
-    var selected = false;
+    var selected = false; 
     if(props.selected == item) {
       selected = true
     }
