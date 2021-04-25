@@ -116,7 +116,81 @@ export default function App() {
   }
 
   const djikstra = async (graph) => {
-    // complete this algorithm
+    var s = startNode;
+    var solution = {};
+    solution[s] = [];
+    solution[s].dist = 0;
+  
+    while(true) {
+      var parent = null;
+      var nearest = null;
+      var distance = INF;
+    
+      // For each existing solution
+      for(var n in solution) {
+        if(!solution[n]){
+          continue;
+        }
+
+        var ndist = solution[n].dist;
+        var adj = graph[n];
+        // For each of its adjacent vertices
+        for(var a in adj) {
+          // Without a solution
+          if(solution[adj[a][0]]){
+            continue;
+          }
+
+          // Choose nearest vertex with the lowest "total" cost
+          var dv = adj[a][1] + ndist;
+          if(dv < distance) {
+            // Reference parent
+            parent = solution[n];
+            nearest = adj[a][0];
+            distance = dv;
+          }
+        }
+      }
+    
+      // No more solutions
+      if(distance === INF) {
+        break;
+      }
+    
+      // Extend parent's solution path
+      solution[nearest] = parent.concat(nearest);
+      // Extend parent's cost
+      solution[nearest].dist = distance;
+    }
+
+    var arr;
+    var x;
+    for(var i in solution) {
+      arr = [0,0,0,0,0,0,0,0,0,0,0,0];
+      if(!solution[i]) {
+        continue;
+      }
+      setSelected(i);
+      x = s;
+    
+      for(var j of solution[i]){
+        for(var k in connections){
+          if((j === connections[k][0] || j === connections[k][1]) && (x === connections[k][0] || x === connections[k][1])){
+            arr[k] = 1
+            console.log(arr)
+          }
+        }
+        x = j;
+      }
+      
+      setWeightSelected(arr);
+    
+    
+      console.log(" -> " + i + ": [" + solution[i].join(", ") + "]   (dist:" + solution[i].dist + ")");
+      await sleep(1000);
+    }
+    
+    return;
   }
 
   const prim = async (graph) => {
