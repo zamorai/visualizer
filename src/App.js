@@ -12,7 +12,7 @@ export default function App() {
   const[completed, setCompleted] = useState([0,0,0,0,0,0,0,0,0,0,0,0])
   const[weights, setWeights] = useState([12,56,3,34,54,6,890,14,32,4,5,65])
   const[graph, setGraph] = useState({})
-  const[algorithm, setAlgorithm] = useState("djikstra")
+  const[algorithm, setAlgorithm] = useState("dijkstra")
   const[startNode, setStartNode] = useState(1);
   const[endNode, setEndNode] = useState(2);
 
@@ -115,7 +115,7 @@ export default function App() {
     return; 
   }
 
-  const djikstra = async (graph) => {
+  const dijkstra = async (graph) => {
     var s = startNode;
     var solution = {};
     solution[s] = [];
@@ -297,8 +297,8 @@ export default function App() {
       case "bfs":
         traverseBFS(grph)
         break;
-      case "djikstra":
-        djikstra(grph)
+      case "dijkstra":
+        dijkstra(grph)
         break;
       case "prim":
         prim(grph)
