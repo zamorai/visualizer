@@ -162,7 +162,8 @@ export default function App() {
       // Extend parent's cost
       solution[nearest].dist = distance;
     }
-
+    
+    // Hello
     var arr;
     var x;
     for(var i in solution) {
