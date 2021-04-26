@@ -3,11 +3,11 @@ import Graph from './Graph';
 import Header from './Header';
  
 const INF = 9999999
-const nodes = [1,2,3,4,5,6,7,8];
 const connections = [[3,5],[3,4],[8,6],[8,7],[4,6],[7,5],[6,7],[4,5],[7,1],[2,6],[2,4],[5,1]]
 
 export default function App() {
   const[selected, setSelected] = useState(0);
+  const[nodes, setNodes] = useState([1,2,3,4,5,6,7,8])
   const[weightSelected, setWeightSelected] = useState([0,0,0,0,0,0,0,0,0,0,0,0])
   const[completed, setCompleted] = useState([0,0,0,0,0,0,0,0,0,0,0,0])
   const[weights, setWeights] = useState([12,56,3,34,54,6,890,14,32,4,5,65])
@@ -15,7 +15,6 @@ export default function App() {
   const[algorithm, setAlgorithm] = useState("dijkstra")
   const[startNode, setStartNode] = useState(1);
   const[endNode, setEndNode] = useState(2);
-
 
   useEffect(() => {
     //console.log(weights)
@@ -77,6 +76,7 @@ export default function App() {
   // ----------- ALGORITHMS ------------ //
 
   const traverseBFS = async (graph) => {
+    setNodes([1,2,3,4,5,6,7,8])
     let start = startNode
     let end = endNode
   
@@ -117,6 +117,9 @@ export default function App() {
 
   const dijkstra = async (graph) => {
     var s = startNode;
+    var newArr = ["inf","inf","inf","inf","inf","inf","inf","inf"]
+    newArr[startNode-1] = 0
+    setNodes(newArr)
     var solution = {};
     solution[s] = [];
     solution[s].dist = 0;
@@ -125,7 +128,6 @@ export default function App() {
       var parent = null;
       var nearest = null;
       var distance = INF;
-    
       // For each existing solution
       for(var n in solution) {
         if(!solution[n]){
@@ -179,29 +181,29 @@ export default function App() {
           if((j === connections[k][0] || j === connections[k][1]) && (x === connections[k][0] || x === connections[k][1])){
             arr[k] = 1
             console.log(arr)
+            
           }
         }
         x = j;
       }
-      
-      setWeightSelected(arr);
     
+      setCompleted(arr);
     
       console.log(" -> " + i + ": [" + solution[i].join(", ") + "]   (dist:" + solution[i].dist + ")");
       await sleep(1000);
     }
-    
+    setCompleted([0,0,0,0,0,0,0,0,0,0,0,0]);
     return;
   }
 
   const prim = async (graph) => {
+    setNodes([1,2,3,4,5,6,7,8])
     // starting node
     var start = startNode
 
     var arr = [0,0,0,0,0,0,0,0,0,0,0,0]
     var complete = [0,0,0,0,0,0,0,0,0,0,0,0]
     var allMin = []
-
     var q = [[start, [start]]]
     var visited = new Set()
     visited.add(start)
@@ -241,7 +243,7 @@ export default function App() {
         visited.add(min[0])
         q.push([min[0], [...path, min[0]]])
       }
-      await sleep(1000) 
+      await sleep(7000) 
     }
     return;
   }
@@ -251,6 +253,7 @@ export default function App() {
   }
 
   const traverseDFS = async (graph) => {
+    setNodes([1,2,3,4,5,6,7,8])
     let start = startNode
     let end = endNode
   

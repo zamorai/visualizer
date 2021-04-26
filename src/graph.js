@@ -2,13 +2,13 @@ import React from 'react';
 
 export default function Graph(props) {
  
-  const renderNodes = props.nodes.map(item => {
+  const renderNodes = props.nodes.map((item, index) => {
     var selected = false; 
     if(props.selected == item) {
       selected = true
     }
     return (
-      <div className={`node node-${item} ${selected ? "selected" : ""}`}>{item}</div>
+      <div className={`node node-${index+1} ${selected ? "selected" : ""}`}>{item}</div>
     )
   })
 

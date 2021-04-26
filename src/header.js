@@ -26,7 +26,7 @@ export default function Header(props) {
         Visualizer
       </div> 
       <div className="options">
-        <select onChange={ e => handleChange(e)} name='algorithms'>
+        <select onChange={ e => handleChange(e) } name='algorithms'>
           <option value="dijkstra">Dijkstra's Algorithm</option>
           <option value="prim">Prim's Algorithm</option>
           <option value="kruskal">Kruskal's Algorithm</option>
