@@ -27,7 +27,7 @@ export default function Header(props) {
       </div> 
       <div className="options">
         <select onChange={ e => handleChange(e)} name='algorithms'>
-          <option value="djikstra">Djikstra's Algorithm</option>
+          <option value="dijkstra">Dijkstra's Algorithm</option>
           <option value="prim">Prim's Algorithm</option>
           <option value="kruskal">Kruskal's Algorithm</option>
           <option value="bfs">BFS</option>
