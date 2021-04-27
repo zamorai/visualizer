@@ -249,7 +249,21 @@ export default function App() {
   }
 
   const kruskal = async (graph) => {
-    // complete this algorithm
+    setNodes([1,2,3,4,5,6,7,8])
+    let start = startNode
+
+    var complete = [0,0,0,0,0,0,0,0,0,0,0,0]
+    var visited = new Set()
+    visited.add(start)
+    sorted_weights = [...weights]
+    sorted_weights.sort()
+    for(let i = 0; i < nodes.length; i++){
+      let new_edge = sorted_weights.pop()
+      if(!makes_cycle(new_edge)){
+        complete[weights.indexOf(new_edge)] = 1
+        
+      }
+    }
   }
 
   const traverseDFS = async (graph) => {
