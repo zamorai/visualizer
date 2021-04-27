@@ -117,13 +117,16 @@ export default function App() {
 
   const dijkstra = async (graph) => {
     var s = startNode;
-    var newArr = ["inf","inf","inf","inf","inf","inf","inf","inf"]
-    newArr[startNode-1] = 0
-    setNodes(newArr)
+    var path = [0,0,0,0,0,0,0,0,0,0,0,0];
+    var newArr = ["inf","inf","inf","inf","inf","inf","inf","inf"];
+    newArr[startNode-1] = 0;
+    setNodes(newArr);
+    var index;
+
+    // All of the paths and distances are stored here
     var solution = {};
     solution[s] = [];
     solution[s].dist = 0;
-  
     while(true) {
       var parent = null;
       var nearest = null;
@@ -136,6 +139,7 @@ export default function App() {
 
         var ndist = solution[n].dist;
         var adj = graph[n];
+ 
         // For each of its adjacent vertices
         for(var a in adj) {
           // Without a solution
@@ -143,6 +147,11 @@ export default function App() {
             continue;
           }
 
+
+          path[weights.indexOf(adj[a][1])] = 1
+          setSelected(adj[a][0]);
+          setWeightSelected(path);
+          
           // Choose nearest vertex with the lowest "total" cost
           var dv = adj[a][1] + ndist;
           if(dv < distance) {
@@ -150,10 +159,19 @@ export default function App() {
             parent = solution[n];
             nearest = adj[a][0];
             distance = dv;
+            
+            // Show the distance to a vertex
+            newArr[nearest - 1] = distance;
+            setNodes(newArr);
+            
+            await sleep(500);
           }
+          path = [0,0,0,0,0,0,0,0,0,0,0,0]
+          setWeightSelected(path)
         }
+        
       }
-    
+      
       // No more solutions
       if(distance === INF) {
         break;
@@ -165,28 +183,37 @@ export default function App() {
       solution[nearest].dist = distance;
     }
     
-    // Hello
+    // Visualise the shortest path to each vertex
     var arr;
     var x;
     for(var i in solution) {
       arr = [0,0,0,0,0,0,0,0,0,0,0,0];
-      if(!solution[i]) {
+      if(!solution[i] && i !== s) {
         continue;
       }
-      setSelected(i);
+      
       x = s;
     
       for(var j of solution[i]){
         for(var k in connections){
           if((j === connections[k][0] || j === connections[k][1]) && (x === connections[k][0] || x === connections[k][1])){
             arr[k] = 1
-            console.log(arr)
+            // console.log(arr)
+          
+            // console.log(adj[a]);
             
           }
+          
+          // await sleep(1000);
         }
+        // setWeightSelected(path);
+        setSelected(j);
+        console.log(j);
+        
+        await sleep(400);
         x = j;
       }
-    
+      
       setCompleted(arr);
     
       console.log(" -> " + i + ": [" + solution[i].join(", ") + "]   (dist:" + solution[i].dist + ")");
@@ -243,7 +270,7 @@ export default function App() {
         visited.add(min[0])
         q.push([min[0], [...path, min[0]]])
       }
-      await sleep(7000) 
+      await sleep(500) 
     }
     return;
   }

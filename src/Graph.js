@@ -4,7 +4,7 @@ export default function Graph(props) {
  
   const renderNodes = props.nodes.map((item, index) => {
     var selected = false; 
-    if(props.selected == item) {
+    if(props.selected == index+1) {
       selected = true
     }
     return (
