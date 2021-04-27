@@ -127,7 +127,6 @@ export default function App() {
     var solution = {};
     solution[s] = [];
     solution[s].dist = 0;
-  
     while(true) {
       var parent = null;
       var nearest = null;
@@ -140,17 +139,18 @@ export default function App() {
 
         var ndist = solution[n].dist;
         var adj = graph[n];
-
+ 
         // For each of its adjacent vertices
         for(var a in adj) {
-          
           // Without a solution
           if(solution[adj[a][0]]){
             continue;
           }
 
+
+          path[weights.indexOf(adj[a][1])] = 1
           setSelected(adj[a][0]);
-          setWeightSelected(weights.indexOf(adj[a][1]));
+          setWeightSelected(path);
           
           // Choose nearest vertex with the lowest "total" cost
           var dv = adj[a][1] + ndist;
@@ -166,7 +166,8 @@ export default function App() {
             
             await sleep(500);
           }
-          
+          path = [0,0,0,0,0,0,0,0,0,0,0,0]
+          setWeightSelected(path)
         }
         
       }
@@ -209,7 +210,7 @@ export default function App() {
         setSelected(j);
         console.log(j);
         
-        await sleep(1000);
+        await sleep(400);
         x = j;
       }
       
@@ -269,7 +270,7 @@ export default function App() {
         visited.add(min[0])
         q.push([min[0], [...path, min[0]]])
       }
-      await sleep(7000) 
+      await sleep(500) 
     }
     return;
   }
