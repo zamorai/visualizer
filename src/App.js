@@ -275,22 +275,94 @@ export default function App() {
     return;
   }
 
-  const kruskal = async (graph) => {
-    setNodes([1,2,3,4,5,6,7,8])
-    let start = startNode
-
-    var complete = [0,0,0,0,0,0,0,0,0,0,0,0]
-    var visited = new Set()
-    visited.add(start)
-    sorted_weights = [...weights]
-    sorted_weights.sort()
-    for(let i = 0; i < nodes.length; i++){
-      let new_edge = sorted_weights.pop()
-      if(!makes_cycle(new_edge)){
-        complete[weights.indexOf(new_edge)] = 1
+  const buildPartial = (edge_list) => {
+    var newGraph = {}
+    var node1, node2, weight;
+    for(var i = 0; i < 12; i++) {
+      if(edge_list[i] === 1){
+        node1 = connections[i][0]
+        node2 = connections[i][1]
+        weight = weights[i]
         
+        addEdge(node1, node2, weight)
       }
     }
+    
+    function addEdge(node1, node2, value) {
+      if(node1 in newGraph) {
+        newGraph[node1].push([node2, value])
+      } else {
+        newGraph[node1] = [[node2, value]]
+      }
+      if(node2 in newGraph) {
+        newGraph[node2].push([node1, value])
+      } else {
+        newGraph[node2] = [[node1, value]]
+      }
+    }
+    return newGraph
+  }
+
+  // check for cycles if new edge is added
+  const makes_cycle = async (edge, edges_used) => {
+    let edge_list = [...edges_used]
+    edge_list[edge] = 1
+    let graph = buildPartial(edge_list)
+    let start = connections[edge][0]
+  
+    var stack = [[start, []]];
+    var visited = new Set();
+    visited.add(start) 
+    while(stack.length > 0) {
+      var len = stack.length
+      var node, path;
+      for(var i = 0; i < len; i++) {
+        [node, path] = stack.pop()
+        for(var nei of graph[node]) {
+          if(visited.has(nei[0]) && nei[0] !== path[path.length-1]){
+            return true
+          }
+          if(!visited.has(nei[0])) {
+            visited.add(nei[0])
+            stack.push([nei[0], [...path, node]])
+          }
+        }
+      }
+    }
+    return false
+  }
+
+  const kruskal = async (graph) => {
+    setNodes([1,2,3,4,5,6,7,8])
+    var complete_weight = [0,0,0,0,0,0,0,0,0,0,0,0]
+    var old_weight = [...complete_weight]
+
+    let sorted_weights = [...weights]
+    sorted_weights = sorted_weights.sort(function(a,b) {return b-a})
+
+    let edges_added = 0
+    while(edges_added < nodes.length - 1){
+      complete_weight = [...old_weight]
+      let new_edge = sorted_weights.pop()
+
+      complete_weight[weights.indexOf(new_edge)] = 1
+      setWeightSelected(complete_weight)
+      await sleep(250)
+      let c = await makes_cycle(weights.indexOf(new_edge), complete_weight)
+      if(!c){
+        edges_added++
+        complete_weight[weights.indexOf(new_edge)] = 1
+        console.log(weights.indexOf(new_edge))
+      } else {
+        complete_weight = old_weight
+      }
+      old_weight = [...complete_weight]
+      await sleep(250)
+      setWeightSelected(complete_weight)
+    }
+    complete_weight = [...complete_weight]
+    await sleep(500)
+    setCompleted(complete_weight)
   }
 
   const traverseDFS = async (graph) => {
@@ -376,3 +448,33 @@ function sleep(ms) {
 }
 
 
+
+
+/*
+console.log(connections[edge])
+    let paths_inc = {}
+    for(let i = 0; i < edges_used.length; i++){
+      if(edges_used[i]){
+        paths_inc[connections[i][0]].push(connections[i][1])
+        paths_inc[connections[i][1]].push(connections[i][0])
+      }
+    }
+    console.log(paths_inc)
+    paths_inc[connections[edge][0]].push(connections[edge][1])
+    paths_inc[connections[edge][1]].push(connections[edge][0])
+
+    console.log(paths_inc)
+    let visited = []
+    let curr = connections[edge][1]
+    let prev = connections[edge][0]
+    visited.push(curr)
+    visited.push(prev)
+    console.log(visited)
+    return false
+    for(let i = 0; i < edges_used.length; i++){
+      if((paths_inc[curr].filter(function(val,idx,arr){return (!visited.includes(val))&&val!=prev}).length === 0)&&(paths_inc[prev].filter(function(val,idx,arr){return (!visited.includes(val))&&val!=curr}).length === 0))
+        return true
+      else{
+
+      }
+    }*/
