@@ -121,7 +121,6 @@ export default function App() {
     var newArr = ["inf","inf","inf","inf","inf","inf","inf","inf"];
     newArr[startNode-1] = 0;
     setNodes(newArr);
-    var index;
 
     // All of the paths and distances are stored here
     var solution = {};
@@ -147,11 +146,6 @@ export default function App() {
             continue;
           }
 
-
-          path[weights.indexOf(adj[a][1])] = 1
-          setSelected(adj[a][0]);
-          setWeightSelected(path);
-          
           // Choose nearest vertex with the lowest "total" cost
           var dv = adj[a][1] + ndist;
           if(dv < distance) {
@@ -159,6 +153,11 @@ export default function App() {
             parent = solution[n];
             nearest = adj[a][0];
             distance = dv;
+
+            path[weights.indexOf(adj[a][1])] = 1
+            setSelected(adj[a][0]);
+            setWeightSelected(path);
+            await sleep(500);
             
             // Show the distance to a vertex
             newArr[nearest - 1] = distance;
@@ -166,7 +165,6 @@ export default function App() {
             
             await sleep(500);
           }
-          path = [0,0,0,0,0,0,0,0,0,0,0,0]
           setWeightSelected(path)
         }
         
@@ -188,38 +186,39 @@ export default function App() {
     var x;
     for(var i in solution) {
       arr = [0,0,0,0,0,0,0,0,0,0,0,0];
-      if(!solution[i] && i !== s) {
+      
+      if(!solution[i]) {
         continue;
       }
       
       x = s;
-    
+      setSelected(x);
       for(var j of solution[i]){
-        for(var k in connections){
-          if((j === connections[k][0] || j === connections[k][1]) && (x === connections[k][0] || x === connections[k][1])){
-            arr[k] = 1
-            // console.log(arr)
-          
-            // console.log(adj[a]);
-            
-          }
-          
-          // await sleep(1000);
-        }
-        // setWeightSelected(path);
-        setSelected(j);
-        console.log(j);
         
+        for(var k in connections){
+          
+          if((j === connections[k][0] || j === connections[k][1]) && (x === connections[k][0] || x === connections[k][1])){
+            arr[k] = 1;
+          }
+          setWeightSelected(arr);
+        }
+
+        setSelected(j);      
         await sleep(400);
         x = j;
       }
-      
+  
       setCompleted(arr);
     
       console.log(" -> " + i + ": [" + solution[i].join(", ") + "]   (dist:" + solution[i].dist + ")");
       await sleep(1000);
+      setCompleted([0,0,0,0,0,0,0,0,0,0,0,0]);
+      setSelected(0);
     }
+
+    setWeightSelected([0,0,0,0,0,0,0,0,0,0,0,0]);
     setCompleted([0,0,0,0,0,0,0,0,0,0,0,0]);
+    console.log("Dijkstra Done");
     return;
   }
 
